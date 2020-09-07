@@ -5,13 +5,14 @@ import { login } from "../authentication/utils";
 import { toast } from 'react-toastify';
 
 // State imports
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { userState } from '../authentication/state';
 
 import logo from '../assets/logo.png';
 
 export default function Login() {
-    const setUserState = useSetRecoilState(userState);
+    const [user, setUser] = useRecoilState(userState);
+
     const handleSubmit = (values, { setSubmitting }) => {
         console.log(values);
         login(values).then(res => {
@@ -25,9 +26,10 @@ export default function Login() {
                     draggable: true,
                     progress: undefined,
                     });
-                // console.log(res.data);
+                console.log(res.data);
                 
-                setUserState(res.data.user);
+                setUser(res.data.user);
+                console.log(user);
                 setSubmitting(false);
             }
         }).catch(err => {

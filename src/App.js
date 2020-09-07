@@ -1,6 +1,5 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { RecoilRoot } from 'recoil';
 import { HelmetProvider } from 'react-helmet-async';
 import { ToastContainer } from 'react-toastify';
 
@@ -12,7 +11,6 @@ import Counter from './pages/Counter';
 function App() {
   return (
     <>
-    <RecoilRoot>
       <HelmetProvider>
         <ToastContainer
           position="top-right"
@@ -36,8 +34,6 @@ function App() {
           </Router>
         
       </HelmetProvider>
-    </RecoilRoot>
-    
     </>
   );
 }
