@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import logo from '../assets/logo.png';
+import { Link } from 'react-router-dom';
 
 export default function Nav() {
     const [mobileToggle, setMobileToggle] = useState(false);
@@ -20,9 +21,9 @@ export default function Nav() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6">
                 <div className="flex justify-between items-center border-b-2 border-gray-100 py-6 md:justify-start md:space-x-10">
                 <div className="lg:w-0 lg:flex-1">
-                    <a href="/" className="flex">
-                    <img className="h-8 w-auto sm:h-10" src={logo} alt="NightKit" />
-                    </a>
+                    <Link to="/">
+                        <img className="h-8 w-auto sm:h-10" src={logo} alt="NightKit" />
+                    </Link>
                 </div>
                 <div className="-mr-2 -my-2 md:hidden">
                     <button type="button" className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out" onClick={() => setMobileToggle(true)}>
@@ -34,20 +35,27 @@ export default function Nav() {
                 <nav className="hidden md:flex space-x-10">
                 {links.map(link => {
                     return (
-                        <a href={link.route} key={link.name} className="text-base leading-6 font-medium text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150">
+                        <Link to={link.route}>
+                        <button key={link.name} className="text-base leading-6 font-medium text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150">
                         {link.name}
-                        </a>
+                        </button>
+                        </Link>
+                        
                     )
                 })}
                 </nav>
                 <div className="hidden md:flex items-center justify-end space-x-8 md:flex-1 lg:w-0" >
-                    <a href="/login" className="whitespace-no-wrap text-base leading-6 font-medium text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900">
-                        Login
-                    </a>
+                    <Link to="/login">
+                        <button className="whitespace-no-wrap text-base leading-6 font-medium text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900">
+                            Login
+                        </button>
+                    </Link>
                     <span className="inline-flex rounded-md shadow-sm">
-                    <a href="/register" className="whitespace-no-wrap inline-flex items-center justify-center px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150">
-                        Register
-                    </a>
+                   <Link to="/register">
+                    <button className="whitespace-no-wrap inline-flex items-center justify-center px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150">
+                            Register
+                    </button>
+                   </Link>
                     </span>
                 </div>
                 </div>
