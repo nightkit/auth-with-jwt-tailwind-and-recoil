@@ -1,14 +1,47 @@
 import React from 'react'
 import Layout from '../components/Layout/index';
 import { Formik } from "formik";
-import { login } from "../authentication/login";
+import { login } from "../authentication/utils";
+import { toast } from 'react-toastify';
+
+// State imports
+import { useSetRecoilState } from 'recoil';
+import { userState } from '../authentication/state';
 
 import logo from '../assets/logo.png';
 
 export default function Login() {
+    const setUserState = useSetRecoilState(userState);
     const handleSubmit = (values, { setSubmitting }) => {
         console.log(values);
-        login(values).then()
+        login(values).then(res => {
+            if(res.success){
+                toast.dark(`🐴 Logged in...`, {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    });
+                // console.log(res.data);
+                
+                setUserState(res.data.user);
+                setSubmitting(false);
+            }
+        }).catch(err => {
+            toast.dark(`❌ ${err}`, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                });
+                setSubmitting(false);
+        })
     };
 
     return (
