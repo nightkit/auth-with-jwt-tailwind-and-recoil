@@ -2,16 +2,18 @@ import React from 'react'
 import Layout from '../components/Layout/index';
 import { Formik } from "formik";
 import { login } from "../authentication/utils";
+import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 // State imports
-import { useRecoilState } from 'recoil';
-import { userState } from '../authentication/state';
+import { useSetRecoilState } from 'recoil';
+import { userState, isLoggedIn } from '../authentication/state';
 
 import logo from '../assets/logo.png';
 
 export default function Login() {
-    const [user, setUser] = useRecoilState(userState);
+    const setUser = useSetRecoilState(userState);
+    const setLoggedIn = useSetRecoilState(isLoggedIn);
 
     const handleSubmit = (values, { setSubmitting }) => {
         console.log(values);
@@ -25,11 +27,9 @@ export default function Login() {
                     pauseOnHover: true,
                     draggable: true,
                     progress: undefined,
-                    });
-                console.log(res.data);
-                
+                    });                
+                setLoggedIn(true);
                 setUser(res.data.user);
-                console.log(user);
                 setSubmitting(false);
             }
         }).catch(err => {
@@ -57,9 +57,9 @@ export default function Login() {
                     Sign in to your account
                 </h2>
                 <p className="mt-2 text-center text-sm leading-5 text-gray-600">
-                    Or <a href="/register" className="font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:underline transition ease-in-out duration-150">
+                    Or <Link to="/register" className="font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:underline transition ease-in-out duration-150">
                     register here.
-                    </a>
+                    </Link>
                 </p>
                 </div>
                 <Formik
@@ -93,9 +93,9 @@ export default function Login() {
                             </div>
         
                             <div className="text-sm leading-5">
-                            <a href="/reset" className="font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:underline transition ease-in-out duration-150">
+                            <Link to="/reset" className="font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:underline transition ease-in-out duration-150">
                                 Forgot your password?
-                            </a>
+                            </Link>
                             </div>
                         </div>
         

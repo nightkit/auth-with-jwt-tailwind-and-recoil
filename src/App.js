@@ -6,7 +6,9 @@ import { ToastContainer } from 'react-toastify';
 // Imports
 import Home from './pages/Home';
 import Login from './pages/Login';
-import Counter from './pages/Counter';
+import Logout from './pages/Logout';
+import Profile from './pages/Profile';
+
 
 function App() {
   return (
@@ -26,8 +28,9 @@ function App() {
         </ToastContainer>
           <Router>
             <Switch>
-              <Route exact path="/counter" component={Counter} />
+              <Route exact path="/profile" component={Profile} />
               <Route exact path="/login" component={Login} />
+              <Route exact path="/logout" component={Logout} />
               <Route exact path="/" component={Home} />
               <Route path="*">No</Route>
             </Switch>

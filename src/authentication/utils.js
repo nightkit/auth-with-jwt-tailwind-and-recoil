@@ -1,15 +1,13 @@
 // Server config
 import * as serverConfig from './server-config';
 
-async function makeRequest(url = '', data = {}, type = '') {
+async function makeRequest(url = '', data = {}, type = '', headers = { 'Content-Type': 'application/json'} ) {
     const response = await fetch(url, {
         method: type,
         mode: 'cors',
         cache: 'no-cache',
         credentials: 'same-origin',
-        headers: {
-            'Content-Type': 'application/json',
-        },
+        headers: headers,
         redirect: 'follow',
         referrerPolicy: 'no-referrer',
         body: JSON.stringify(data)
@@ -17,9 +15,9 @@ async function makeRequest(url = '', data = {}, type = '') {
     return response.json();
 }
 
-const checkLoggedIn = () => {
+export const checkToken = () => {
     const token = localStorage.getItem("token");
-    return !!token && String(token) !== "null" && String(token) !== "undefined";
+    return !!token && String(token) !== "null" && String(token) !== "undefined" && JSON.parse(token).expiry > new Date().getTime();
 }
 
 async function createLocalstorageItem(key, value) {
@@ -27,13 +25,19 @@ async function createLocalstorageItem(key, value) {
     return true;
 }
 
-async function fetchToken() {
+export function fetchToken() {
     const token = localStorage.getItem("token");
-    return { token };
+    if(new Date().getTime() > token.expiry) {
+        logout();
+        throw new Error("Token expired.");
+    }
+    if(!token){
+        throw new Error("Token doesn't exist.")
+    }
+    return { token: JSON.parse(token).token };
 }
 
 export const login = async (credentials = {}) => {
-    console.log(checkLoggedIn());
     localStorage.removeItem("token");
     if (!credentials || !credentials.email || !credentials.password) {
         throw new Error("Invalid request.")
@@ -43,7 +47,7 @@ export const login = async (credentials = {}) => {
     if (data.error) {
         throw (new Error(data.error));
     } else {
-        createLocalstorageItem("token", data.token);
+        createLocalstorageItem("token", JSON.stringify({token: data.token, expiry: new Date().getTime() + 60 * 60 * 1000}));
         return {
             success: true,
             data: data
