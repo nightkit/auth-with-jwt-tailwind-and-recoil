@@ -6,13 +6,17 @@ import { toast } from 'react-toastify';
 
 // State imports
 import { useSetRecoilState } from 'recoil';
-import { isLoggedIn } from '../authentication/state'
+import { isLoggedIn, userState } from '../authentication/state'
 
 export default function Logout() {
     const setLoggedIn = useSetRecoilState(isLoggedIn);
+    const setUserState = useSetRecoilState(userState);
+
     useEffect(() => {
         logout();
         setLoggedIn(false);
+        setUserState([]);
+
         toast.error(`🐱 Logged out...`, {
             position: "top-right",
             autoClose: 5000,
@@ -22,7 +26,7 @@ export default function Logout() {
             draggable: true,
             progress: undefined,
             });             
-    }, [setLoggedIn])
+    }, [setLoggedIn, setUserState])
     return (
         <Redirect to="/login" />
     )
