@@ -40,9 +40,27 @@ export function fetchToken() {
 export const login = async (credentials = {}) => {
     localStorage.removeItem("token");
     if (!credentials || !credentials.email || !credentials.password) {
-        throw new Error("Invalid request.")
+        throw new Error("Some fields are missing.")
     }
     const data = await makeRequest(serverConfig.serverURL + serverConfig.routes.login, credentials, 'POST');
+
+    if (data.error) {
+        throw (new Error(data.error));
+    } else {
+        createLocalstorageItem("token", JSON.stringify({token: data.token, expiry: new Date().getTime() + 60 * 60 * 1000}));
+        return {
+            success: true,
+            data: data
+        };
+    }
+}
+
+export const register = async (details = {}) => {
+    localStorage.removeItem("token");
+    if (!details || !details.name || !details.email || !details.password) {
+        throw new Error("Some fields are missing.")
+    }
+    const data = await makeRequest(serverConfig.serverURL + serverConfig.routes.register, details, 'POST');
 
     if (data.error) {
         throw (new Error(data.error));

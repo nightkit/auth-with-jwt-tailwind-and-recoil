@@ -18,7 +18,12 @@ export default function Nav() {
         },
         {
             name: 'Unsecured Page',
-            route: '/unsecured'
+            route: '/unsecured-page'
+        },
+        {
+            name: 'Secured Page',
+            route: '/secured-page',
+            protected: true,
         }
     ];
 
@@ -41,14 +46,18 @@ export default function Nav() {
                 </div>
                 <nav className="hidden md:flex space-x-10">
                 {links.map(link => {
-                    return (
-                        <Link to={link.route} key={link.name}>
-                            <button className="text-base leading-6 font-medium text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150">
-                            {link.name}
-                            </button>
-                        </Link>
-                        
-                    )
+                    if(!loggedIn && link.protected){
+                        return null;
+                    } else {
+                        return (
+                            <Link to={link.route} key={link.name}>
+                                <button className="text-base leading-6 font-medium text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150">
+                                {link.name}
+                                </button>
+                            </Link>
+                            
+                        )
+                    }
                 })}
                 </nav>
                 <div className="hidden md:flex items-center justify-end space-x-8 md:flex-1 lg:w-0" >
