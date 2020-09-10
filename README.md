@@ -8,7 +8,7 @@ You can use it for:
 # Get Started
 
 ### Setup Backend
-Read ``backend-with-crud-and-auth`` documentation available at - [backend-with-crud-and-auth](https://github.com/nightkit/backend-with-crud-and-auth) to setup your backend.
+Read ``backend-with-crud-and-auth`` documentation available at - [backend-with-crud-and-auth](https://github.com/nightkit/backend-with-crud-and-auth/tree/master#get-started) to setup your backend.
 
 After your backend is setup, you may want to setup an environment variable ``REACT_APP_SERVER_URL`` with the value set to your backend URL in this format - ``https://example.com/api`` without a trailing slash (/). If you're working locally, then just navigate to the ``src/authentication/server-config.js`` file and change the ``serverURL`` variable's value to your local URL in the same format.
 
